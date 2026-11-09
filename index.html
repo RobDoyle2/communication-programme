@@ -52,7 +52,7 @@ details.more>summary{list-style:none;cursor:pointer}details.more>summary::-webki
 #panel{position:fixed;top:0;right:0;bottom:0;width:min(640px,100%);background:var(--bg);box-shadow:var(--sh);z-index:11;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top);animation:in .18s ease-out}
 @keyframes in{from{transform:translateX(30px);opacity:0}}
 [hidden]{display:none!important}
-.tabs{display:flex;gap:8px;padding:12px 18px 0}.tabs button{background:var(--sf);border:1px solid var(--ln);border-radius:999px;padding:4px 14px;font-size:.9rem}.tabs button:first-child{border-color:var(--ac);color:var(--ac);font-weight:600}
+.tabs{display:flex;align-items:center;gap:10px;padding:12px 18px 0}.tabs button{background:var(--sf);border:1px solid var(--ln);border-radius:999px;padding:4px 14px;font-size:.9rem}.tabs button.logo{padding:0;border:0;background:none;border-radius:10px;width:40px;height:40px;line-height:0;flex:none;transition:transform .12s}.tabs button.logo:hover{transform:scale(1.06)}.tabs button.logo img{width:40px;height:40px;border-radius:10px;box-shadow:0 1px 4px rgba(0,0,0,.25);display:block}
 .wd{display:flex;flex-direction:column;gap:1px;width:100%;text-align:left;background:var(--sf);border:1px solid var(--ln);border-radius:12px;padding:8px 12px;margin-bottom:8px;position:relative}.wd:hover{border-color:var(--ac)}.wd .wl{color:var(--ac);font-size:.78rem;font-weight:600}.wd .wg{color:var(--mu);font-size:.88rem}.wd.dn{background:var(--ok)}.wd.dn::after{content:"✓";position:absolute;right:12px;top:8px;color:var(--okt);font-weight:700}
 .ph{display:flex;gap:10px;align-items:flex-start;padding:16px 18px 10px;border-bottom:1px solid var(--ln)}
 .ph .s{color:var(--ac);font-weight:600;font-size:.85rem}.ph h2{margin:2px 0;font-size:1.3rem;line-height:1.25}.ph .m{color:var(--mu);font-size:.82rem}
@@ -148,7 +148,8 @@ function grid(){
 let cur=null,tmr;
 function show(html,ctx){$('panel').innerHTML=html;$('panel').hidden=$('bk').hidden=false;cur=ctx;$('panel').querySelector('.pb').scrollTop=0;$('panel').querySelector('.ph button').focus()}
 function close(){$('panel').hidden=$('bk').hidden=true;cur=null;grid()}
-const tabs=w=>`<nav class="tabs"><button data-close>⌂ Home</button>${w?`<button data-wk="${w}">Week</button>`:''}</nav>`;
+const LOGO=document.querySelector('.brand img').src;
+const tabs=w=>`<nav class="tabs"><button class="logo" data-close aria-label="Back to calendar (Home)" title="Home"><img src="${LOGO}" alt="" width="40" height="40"></button>${w?`<button data-wk="${w}">Week</button>`:''}</nav>`;
 const head=(s,t,m,w)=>tabs(w)+`<div class="ph"><div><div class="s">${esc(s)}</div><h2>${esc(t)}</h2>${m?`<div class="m">${esc(m)}</div>`:''}</div><button aria-label="Close" data-close>✕</button></div>`;
 const task=(t,i,id,done)=>`<section class="tk${done?' done':' open'}" data-id="${id}"><header><span class="tt">${esc(t.title)}</span>${t.mins?`<span class="tm">${t.mins}</span>`:''}<button class="ck" data-ck>${done?'Done ✓':'Mark done'}</button><span class="cv">▾</span></header><div class="tb">${B(t.blocks)}</div></section>`;
 const note=(k,label)=>`<div class="nt"><label for="nt">${label}</label><textarea id="nt" placeholder="How did it go? What did you notice? What will you do differently?">${esc(S.notes[k]||'')}</textarea><small id="sv"></small></div>`;
